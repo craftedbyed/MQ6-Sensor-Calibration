@@ -67,8 +67,20 @@ GND        GND
 AOUT       A0             Analog signal — matches MQ_PIN macro
 DOUT       (not used)     Digital threshold output — leave unconnected
 ```
+> Below is the circuit schematic of my custom MQ6 module and what it looks like on breadboard:
 
-> The MQ6 module's on-board load resistor varies by manufacturer. Measure yours with a multimeter and update `RL_VALUE` in the sketch accordingly. An incorrect RL value will skew all resistance and PPM calculations. And if yo built a custom module like me, be sure to use aa fixed 20 kilohm resistor for RL.
+<p align="center">
+  <img src="images/custom_mq6_circuit_schematic.png" width="600"/>
+</p>
+
+<p align="center">
+  <img src="images/custom_mq6_breadboard.png" width="600"/>
+</p>
+
+> The MQ6 module's on-board load resistor varies by manufacturer. Measure yours with a multimeter and update `RL_VALUE` in the sketch accordingly. An incorrect RL value will skew all resistance and PPM calculations. And if yo built a custom module like me, you could use a fixed 20 k-ohm resistor for RL.
+> However, the output voltage might jump significantly even when the sensor is exposed to very low gas concentrations.
+> For example, with a 20 kΩ load resistor, you might see the output voltage rise from ~0.3 V in clean air to ~1.5 V at just 100 ppm of LPG. This is because the MQ6 is designed to be highly sensitive to combustible gases, and the resistance changes dramatically even at low concentrations.
+> To measure much higher concentrations without the signal capping out, use a lower RL value, e.g. 2 kΩ or 4.7 kΩ. This will reduce the voltage swing and allow you to detect higher ppm levels, but it will also reduce sensitivity at the low end. It's a trade-off that depends on your expected gas concentration range.
 
 ### 16×2 I²C LCD → Arduino Uno
 
